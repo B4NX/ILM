@@ -12,7 +12,7 @@ namespace GloveDriver
         SerialPort arduino;
         public Arduino()
         {
-            this.arduino = new SerialPort("COM4", 9600);
+            this.arduino = new SerialPort("COM3", 9600);
             arduino.Open();
         }
 

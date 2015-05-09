@@ -12,14 +12,24 @@ namespace GloveDriver
         static void Main(string[] args)
         {
             Arduino board = new Arduino();
-            String ting = "aaaa";
-            board.SendSignal("aaaa");
 
-            foreach (byte b in board.ReadSignal())
+            bool go = true;
+            string input;
+            while (go)
             {
-                Console.WriteLine(b);
-            }
+                input = Console.ReadLine();
 
+                foreach (byte b in board.ReadSignal())
+                {
+                    Console.WriteLine(b);
+                }
+                input = Console.ReadLine();
+                board.SendSignal(input);
+                if (input == "q")
+                {
+                    go = false;
+                }
+            }
             Console.WriteLine("Done");
             Console.ReadLine();
         }
