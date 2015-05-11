@@ -19,12 +19,13 @@ namespace GloveDriver
             {
                 input = Console.ReadLine();
 
-                foreach (byte b in board.ReadSignal())
-                {
-                    Console.WriteLine(b);
-                }
-                input = Console.ReadLine();
-                board.SendSignal(input);
+                //if (board.readBuffer.Count != 0)
+                //{
+                //    string message = ByteToString(board.readBuffer.Dequeue());
+                //    Console.WriteLine(message);
+                //}
+
+                board.writeBuffer.Enqueue(StringToByte(input));
                 if (input == "q")
                 {
                     go = false;
@@ -32,6 +33,15 @@ namespace GloveDriver
             }
             Console.WriteLine("Done");
             Console.ReadLine();
+        }
+
+        public static byte[] StringToByte(string s)
+        {
+            return System.Text.Encoding.ASCII.GetBytes(s);
+        }
+        public static String ByteToString(byte[] b)
+        {
+            return System.Text.Encoding.ASCII.GetString(b);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace GloveDriver
             while (true)
             {
                 fs.WriteByte((byte)device.ReadByte());
+                fs.Write(System.Text.Encoding.ASCII.GetBytes(","), 0, System.Text.Encoding.ASCII.GetByteCount(","));
             }
         }
     }
