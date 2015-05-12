@@ -11,7 +11,7 @@ namespace GloveDriver
     {
         static void Main(string[] args)
         {
-            Arduino board = new Arduino();
+            DeviceManager board = new DeviceManager();
 
             bool go = true;
             string input;

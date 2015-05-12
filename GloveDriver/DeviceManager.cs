@@ -8,12 +8,12 @@ using System.IO.Ports;
 
 namespace GloveDriver
 {
-    class Arduino
+    class DeviceManager : IDisposable
     {
         SerialPort arduino;
         Thread readThread;
         Thread writeThread;
-        public Arduino()
+        public DeviceManager()
         {
             this.arduino = new SerialPort("COM3", 9600);
             arduino.Open();
@@ -25,12 +25,6 @@ namespace GloveDriver
             readThread.Start();
             writeThread = new Thread(new ThreadStart(WriteAsync));
             writeThread.Start();
-        }
-        ~Arduino()
-        {
-            readThread.Abort();
-            writeThread.Abort();
-            arduino.Close();
         }
 
         public Queue<byte[]> readBuffer;
@@ -65,6 +59,12 @@ namespace GloveDriver
         public void Explode()
         {
 
+        }
+        void IDisposable.Dispose()
+        {
+            readThread.Abort();
+            writeThread.Abort();
+            this.arduino.Dispose();
         }
     }
 }

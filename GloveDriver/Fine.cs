@@ -8,7 +8,7 @@ using System.IO;
 
 namespace GloveDriver
 {
-    class Fine
+    class Fine :IDisposable
     {
         SerialPort device;
         FileStream fs;
@@ -16,11 +16,7 @@ namespace GloveDriver
         {
             device = new SerialPort("COM1", 9600);
         }
-        ~Fine()
-        {
-            fs.Close();
-            device.Close();
-        }
+
         public void CollectAndStore()
         {
             fs = File.Create("DATA.csv");
@@ -31,6 +27,11 @@ namespace GloveDriver
                 fs.WriteByte((byte)device.ReadByte());
                 fs.Write(System.Text.Encoding.ASCII.GetBytes(","), 0, System.Text.Encoding.ASCII.GetByteCount(","));
             }
+        }
+
+        void IDisposable.Dispose()
+        {
+            this.device.Dispose();
         }
     }
 }
