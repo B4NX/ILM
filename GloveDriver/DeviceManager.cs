@@ -15,7 +15,8 @@ namespace GloveDriver
         Thread writeThread;
         public DeviceManager()
         {
-            this.arduino = new SerialPort("COM3", 9600);
+
+            this.arduino = new SerialPort("COM5", 9600);
             arduino.Open();
 
             readBuffer = new Queue<byte[]>();
@@ -39,7 +40,7 @@ namespace GloveDriver
                 arduino.Read(data, 0, bytesToRead);
                 readBuffer.Enqueue(data);
                 //This shouldn't need to be here
-                Console.WriteLine(System.Text.Encoding.ASCII.GetString(data));
+                //Console.WriteLine(System.Text.Encoding.ASCII.GetString(data));
             }
         }
 
@@ -59,6 +60,12 @@ namespace GloveDriver
         public void Explode()
         {
 
+        }
+        public void Close()
+        {
+            readThread.Abort();
+            writeThread.Abort();
+            this.arduino.Dispose();
         }
         void IDisposable.Dispose()
         {

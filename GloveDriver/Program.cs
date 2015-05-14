@@ -11,9 +11,18 @@ namespace GloveDriver
     {
         static void Main(string[] args)
         {
-            DeviceManager board = new DeviceManager();
-
+            DeviceManager board = null;
             bool go = true;
+            try
+            {
+                board = new DeviceManager();
+            }
+            catch (System.IO.IOException e)
+            {
+                throw new Exception("No device was found on the specified COM port",e);
+                go = false;
+            }
+
             string input;
             while (go)
             {
@@ -29,10 +38,10 @@ namespace GloveDriver
                 if (input == "q")
                 {
                     go = false;
+                    board.Close();
                 }
             }
             Console.WriteLine("Done");
-            Console.ReadLine();
         }
 
         public static byte[] StringToByte(string s)

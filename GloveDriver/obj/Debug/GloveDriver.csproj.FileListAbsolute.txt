@@ -19,5 +19,3 @@ C:\Users\Nikko\Documents\Dev\School_2014-2015\ILM\GloveDriver\obj\Debug\GloveDri
 C:\Users\Nikko\Documents\Dev\School_2014-2015\ILM\GloveDriver\bin\Debug\GloveDriver.exe
 C:\Users\Nikko\Documents\Dev\School_2014-2015\ILM\GloveDriver\bin\Debug\GloveDriver.pdb
 C:\Users\Nikko\Documents\Dev\School_2014-2015\ILM\GloveDriver\obj\Debug\GloveDriver.csprojResolveAssemblyReference.cache
-C:\Users\Nikko\Documents\Dev\School_2014-2015\ILM\GloveDriver\bin\Debug\GloveDriver.exe.CodeAnalysisLog.xml
-C:\Users\Nikko\Documents\Dev\School_2014-2015\ILM\GloveDriver\bin\Debug\GloveDriver.exe.lastcodeanalysissucceeded
