@@ -19,10 +19,10 @@ namespace GloveDriver
             }
             catch (System.IO.IOException e)
             {
-                throw new Exception("No device was found on the specified COM port",e);
                 go = false;
+                throw new Exception("No device was found on the specified COM port",e);
             }
-
+            
             string input;
             while (go)
             {
