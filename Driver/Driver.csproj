@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <WindowsSdkDir>
+    </WindowsSdkDir>
+    <WindowsSdkDir Condition="'$(UseEnv)' != 'true'">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots@KitsRoot81)</WindowsSdkDir>
+    <WindowsSdkDir Condition="'$(WindowsSdkDir)'==''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Kits\Installed Roots@KitsRoot81)</WindowsSdkDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == 'x86' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9002FA53-706C-49A3-A32A-BBAD4AD54D8D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DPE</RootNamespace>
+    <AssemblyName>Driver</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TE.Managed">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\ref4.5\te.managed.dll</HintPath>
+    </Reference>
+    <Reference Include="WDTF.Interop">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\WDTF.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="WDTFInterfaces.Interop">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\WDTFInterfaces.Interop.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="WDTFSystemAction.Interop">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\WDTFSystemAction.Interop.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="WDTFPNPAction.Interop">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\WDTFPNPAction.Interop.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="WDTFEDTAction.Interop">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\WDTFEDTAction.Interop.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="WDTFDriverSetupSystemAction.Interop">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\WDTFDriverSetupSystemAction.Interop.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="WDTFDriverPackageAction.Interop">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\WDTFDriverPackageAction.Interop.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="WDTFDriverSetupDeviceAction.Interop">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\WDTFDriverSetupDeviceAction.Interop.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Wex.Logger.Interop">
+      <HintPath>$(WindowsSdkDir)\Testing\Development\lib\$(Platform)\Wex.Logger.Interop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomDriverPackageInstallation.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="WdkEwtErtDriverTestProvisioningTarget" AfterTargets="AfterBuild">
+    <CreateItem Include="$(TargetPath)">
+      <Output TaskParameter="Include" ItemName="WdkEwtErtDriverTestProvisioningFiles" />
+    </CreateItem>
+    <Message Importance="High" Text="Windows Driver Test: Deploying '@(WdkEwtErtDriverTestProvisioningFiles)' to '$(VisualStudioDir)\WDK\WDK Tests'" />
+    <Copy SourceFiles="@(WdkEwtErtDriverTestProvisioningFiles)" DestinationFolder="$(VisualStudioDir)\WDK\WDK Tests" SkipUnchangedFiles="True" />
+  </Target>
+  <PropertyGroup>
+    <AvailablePlatforms>$(AvailablePlatforms),ARM</AvailablePlatforms>
+  </PropertyGroup>
+</Project>
